@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyDbUserModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MyDbUserModelStoreContainer">
+    <EntitySet Name="Lokacja" EntityType="MyDbUserModel.Store.Lokacja" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Raid" EntityType="MyDbUserModel.Store.Raid" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Table" EntityType="MyDbUserModel.Store.Table" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Typ" EntityType="MyDbUserModel.Store.Typ" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RaidLokacja" Association="MyDbUserModel.Store.RaidLokacja">
+      <End Role="Raid" EntitySet="Raid" />
+      <End Role="Lokacja" EntitySet="Lokacja" />
+    </AssociationSet>
+    <AssociationSet Name="TypRaid" Association="MyDbUserModel.Store.TypRaid">
+      <End Role="Typ" EntitySet="Typ" />
+      <End Role="Raid" EntitySet="Raid" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Lokacja">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Raid">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+    <Property Name="LokacjaId" Type="int" Nullable="false" />
+    <Property Name="TypId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="varchar(max)" Nullable="false" />
+    <Property Name="Email" Type="varchar(max)" Nullable="false" />
+    <Property Name="Password" Type="varchar(max)" Nullable="false" />
+    <Property Name="Role" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Typ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="RaidLokacja">
+    <End Role="Raid" Type="MyDbUserModel.Store.Raid" Multiplicity="*" />
+    <End Role="Lokacja" Type="MyDbUserModel.Store.Lokacja" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Lokacja">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="LokacjaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TypRaid">
+    <End Role="Typ" Type="MyDbUserModel.Store.Typ" Multiplicity="1" />
+    <End Role="Raid" Type="MyDbUserModel.Store.Raid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="TypId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyDbUserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Lokacja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Raid" Relationship="MyDbUserModel.RaidLokacja" FromRole="Lokacja" ToRole="Raid" />
+        </EntityType>
+        <EntityType Name="Raid">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Lokacja" Relationship="MyDbUserModel.RaidLokacja" FromRole="Raid" ToRole="Lokacja" />
+          <Property Name="LokacjaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Typ" Relationship="MyDbUserModel.TypRaid" FromRole="Raid" ToRole="Typ" />
+          <Property Name="TypId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Typ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Raid" Relationship="MyDbUserModel.TypRaid" FromRole="Typ" ToRole="Raid" />
+        </EntityType>
+        <EntityContainer Name="MyDbUserEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lokacja" EntityType="Self.Lokacja" />
+          <EntitySet Name="Raid" EntityType="Self.Raid" />
+          <EntitySet Name="Table" EntityType="Self.Table" />
+          <EntitySet Name="Typ" EntityType="Self.Typ" />
+          <AssociationSet Name="RaidLokacja" Association="MyDbUserModel.RaidLokacja">
+            <End Role="Raid" EntitySet="Raid" />
+            <End Role="Lokacja" EntitySet="Lokacja" />
+          </AssociationSet>
+          <AssociationSet Name="TypRaid" Association="MyDbUserModel.TypRaid">
+            <End Role="Typ" EntitySet="Typ" />
+            <End Role="Raid" EntitySet="Raid" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="RaidLokacja">
+          <End Type="MyDbUserModel.Raid" Role="Raid" Multiplicity="*" />
+          <End Type="MyDbUserModel.Lokacja" Role="Lokacja" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Lokacja">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raid">
+              <PropertyRef Name="LokacjaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TypRaid">
+          <End Type="MyDbUserModel.Typ" Role="Typ" Multiplicity="1" />
+          <End Type="MyDbUserModel.Raid" Role="Raid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typ">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raid">
+              <PropertyRef Name="TypId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyDbUserModelStoreContainer" CdmEntityContainer="MyDbUserEntities1">
+    <EntitySetMapping Name="Lokacja">
+      <EntityTypeMapping TypeName="IsTypeOf(MyDbUserModel.Lokacja)">
+        <MappingFragment StoreEntitySet="Lokacja">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Raid">
+      <EntityTypeMapping TypeName="IsTypeOf(MyDbUserModel.Raid)">
+        <MappingFragment StoreEntitySet="Raid">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+          <ScalarProperty Name="LokacjaId" ColumnName="LokacjaId" />
+          <ScalarProperty Name="TypId" ColumnName="TypId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Table">
+      <EntityTypeMapping TypeName="IsTypeOf(MyDbUserModel.Table)">
+        <MappingFragment StoreEntitySet="Table">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Typ">
+      <EntityTypeMapping TypeName="IsTypeOf(MyDbUserModel.Typ)">
+        <MappingFragment StoreEntitySet="Typ">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

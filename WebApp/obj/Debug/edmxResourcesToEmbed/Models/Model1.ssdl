@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyDbUserModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MyDbUserModelStoreContainer">
+    <EntitySet Name="Lokacja" EntityType="MyDbUserModel.Store.Lokacja" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Raid" EntityType="MyDbUserModel.Store.Raid" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Table" EntityType="MyDbUserModel.Store.Table" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Typ" EntityType="MyDbUserModel.Store.Typ" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RaidLokacja" Association="MyDbUserModel.Store.RaidLokacja">
+      <End Role="Raid" EntitySet="Raid" />
+      <End Role="Lokacja" EntitySet="Lokacja" />
+    </AssociationSet>
+    <AssociationSet Name="TypRaid" Association="MyDbUserModel.Store.TypRaid">
+      <End Role="Typ" EntitySet="Typ" />
+      <End Role="Raid" EntitySet="Raid" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Lokacja">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Raid">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+    <Property Name="LokacjaId" Type="int" Nullable="false" />
+    <Property Name="TypId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="varchar(max)" Nullable="false" />
+    <Property Name="Email" Type="varchar(max)" Nullable="false" />
+    <Property Name="Password" Type="varchar(max)" Nullable="false" />
+    <Property Name="Role" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Typ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nazwa" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="RaidLokacja">
+    <End Role="Raid" Type="MyDbUserModel.Store.Raid" Multiplicity="*" />
+    <End Role="Lokacja" Type="MyDbUserModel.Store.Lokacja" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Lokacja">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="LokacjaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TypRaid">
+    <End Role="Typ" Type="MyDbUserModel.Store.Typ" Multiplicity="1" />
+    <End Role="Raid" Type="MyDbUserModel.Store.Raid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="TypId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

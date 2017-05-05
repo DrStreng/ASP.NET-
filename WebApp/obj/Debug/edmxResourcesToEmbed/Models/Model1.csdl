@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyDbUserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Lokacja">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Raid" Relationship="MyDbUserModel.RaidLokacja" FromRole="Lokacja" ToRole="Raid" />
+  </EntityType>
+  <EntityType Name="Raid">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Lokacja" Relationship="MyDbUserModel.RaidLokacja" FromRole="Raid" ToRole="Lokacja" />
+    <Property Name="LokacjaId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Typ" Relationship="MyDbUserModel.TypRaid" FromRole="Raid" ToRole="Typ" />
+    <Property Name="TypId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Typ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Raid" Relationship="MyDbUserModel.TypRaid" FromRole="Typ" ToRole="Raid" />
+  </EntityType>
+  <EntityContainer Name="MyDbUserEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Lokacja" EntityType="Self.Lokacja" />
+    <EntitySet Name="Raid" EntityType="Self.Raid" />
+    <EntitySet Name="Table" EntityType="Self.Table" />
+    <EntitySet Name="Typ" EntityType="Self.Typ" />
+    <AssociationSet Name="RaidLokacja" Association="MyDbUserModel.RaidLokacja">
+      <End Role="Raid" EntitySet="Raid" />
+      <End Role="Lokacja" EntitySet="Lokacja" />
+    </AssociationSet>
+    <AssociationSet Name="TypRaid" Association="MyDbUserModel.TypRaid">
+      <End Role="Typ" EntitySet="Typ" />
+      <End Role="Raid" EntitySet="Raid" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="RaidLokacja">
+    <End Type="MyDbUserModel.Raid" Role="Raid" Multiplicity="*" />
+    <End Type="MyDbUserModel.Lokacja" Role="Lokacja" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Lokacja">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="LokacjaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TypRaid">
+    <End Type="MyDbUserModel.Typ" Role="Typ" Multiplicity="1" />
+    <End Type="MyDbUserModel.Raid" Role="Raid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Typ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Raid">
+        <PropertyRef Name="TypId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

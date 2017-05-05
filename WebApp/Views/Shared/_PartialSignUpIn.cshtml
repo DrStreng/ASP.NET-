@@ -1,0 +1,16 @@
+﻿
+
+@if (Session["Zalogowany"] != null)
+{
+    <ul class="menu_nav_right">
+        <li>Witaj @Session["Zalogowany"].ToString()</li>
+        <li>@Html.ActionLink("Log out", "LogOut", "Account")</li>
+    </ul>
+}
+else
+{
+    <ul class="menu_nav_right">
+        <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+        <li>@Html.ActionLink("Register", "Register", "Account")</li>
+    </ul>
+}

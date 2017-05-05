@@ -1,0 +1,52 @@
+﻿@model WebApp.Models.Table
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@if (Session["Admin"] != null)
+{
+<div class="section">
+    <div id="section_title">@ViewBag.Title</div>
+    <div id="section_text">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Id)
+
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Login)</td>
+                        <td>@Html.EditorFor(model => model.Login)</td>
+                        <td>@Html.ValidationMessageFor(model => model.Login)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Email)</td>
+                        <td>@Html.EditorFor(model => model.Email)</td>
+                        <td>@Html.ValidationMessageFor(model => model.Email)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Password)</td>
+                        <td>@Html.EditorFor(model => model.Password)</td>
+                        <td>@Html.ValidationMessageFor(model => model.Password)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Role)</td>
+                        <td>@Html.EditorFor(model => model.Role)</td>
+                        <td>@Html.ValidationMessageFor(model => model.Role)</td>
+                    </tr>
+                </table>
+                <input type="submit" value="Save"  />
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+</div>
+</div>
+}

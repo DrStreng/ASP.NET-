@@ -1,0 +1,26 @@
+﻿
+@if (Session["Zalogowany"] != null)
+{
+    <div class="menu_left">
+        
+        <ul>
+            <li>@Html.ActionLink("Profil", "Profil", "Account")</li>
+            <li>@Html.ActionLink("Rajdy", "Index", "Raid")</li>
+            
+            @if (Session["Admin"] != null)
+            {
+                <li>@Html.ActionLink("User Panel", "Index", "Tables")</li>
+                <li>@Html.ActionLink("Lokacje", "Index", "Lokacja")</li>
+                <li>@Html.ActionLink("Typ", "Index", "Typ")</li>
+            }
+            else
+            {
+
+            }
+        </ul>  
+    </div>
+}
+else
+{
+
+}
